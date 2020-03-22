@@ -1,0 +1,384 @@
+{
+	"info": {
+		"_postman_id": "9c0c40ad-f7e1-4205-a754-6f2419a23e18",
+		"name": "Auctionista",
+		"schema": "https://schema.getpostman.com/json/collection/v2.1.0/collection.json"
+	},
+	"item": [
+		{
+			"name": "http://localhost:3000/data/items",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "7252fa19-e669-40fc-ba38-73a8d2d2bbf7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.affectedRows).to.eql(1);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"seller_id\": 99,\r\n        \"item_name\": \"Toapapper\",\r\n        \"item_desc\": \"Sånt du torkar dig med efter toabesök\",\r\n        \"item_img\": \"http://dummyimage.com/222x148.bmp/dddddd/0213132\",\r\n        \"reserved_price\": 500,\r\n        \"auction_start\": \"2020-03-30T09:25:00.000Z\",\r\n        \"auction_end\": \"2020-03-27T22:00:00.000Z\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/data/items",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"items"
+					]
+				},
+				"description": "1. skapa en auktion, 2. lägga till bild/beskrivning wtc\n7. ha auktion med serverationspris"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/data/3_ongoing_auctions",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "9aa1463b-0240-4e42-b224-75c1be6f37dd",
+						"exec": [
+							"// Vi förväntar oss att svaret från servern ska vara 200 OK:\r",
+							"pm.test(\"Status code is 200\", function () {\r",
+							"    pm.response.to.have.status(200);\r",
+							"});\r",
+							"\r",
+							"// Vi förväntar oss en lista, testa att svaret är en array:\r",
+							"pm.test(\"Response is an array\", function () {\r",
+							"    var jsonData = pm.response.json();\r",
+							"    pm.expect(jsonData).to.be.an('array')\r",
+							"});\r",
+							"\r",
+							"// Vi förväntar oss exakt egenskaperna id, name och email\r",
+							"pm.test(\"Response objects should all contain at least name and auction end\", function () {\r",
+							"    let jsonData = pm.response.json();\r",
+							"    for(let obj of jsonData){\r",
+							"        pm.expect(obj).to.have.any.keys('item_name','auction_end');\r",
+							"    }\r",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/data/3_ongoing_auctions",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"3_ongoing_auctions"
+					]
+				},
+				"description": "user story 3"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/data/bids",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "5a493384-aa18-4981-9c73-41bf0f628bb6",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Your test name\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData.affectedRows).to.eql(1);",
+							"});",
+							""
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "POST",
+				"header": [],
+				"body": {
+					"mode": "raw",
+					"raw": "{\r\n        \"bid_item\": 101,\r\n        \"bid_user\": 30,\r\n        \"bid_price\": 1000,\r\n        \"bid_time\": \"2020-03-20T09:38:00.000Z\"\r\n    }",
+					"options": {
+						"raw": {
+							"language": "json"
+						}
+					}
+				},
+				"url": {
+					"raw": "http://localhost:3000/data/bids",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"bids"
+					]
+				},
+				"description": "user story 4"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/data/5_auction_creator",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "95e218c3-8d45-4bb2-a038-75fa9411d429",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array')",
+							"});",
+							"pm.test(\"Response objects should all contain at least name of the auction and the creator of that auction\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    for(let obj of jsonData){",
+							"        pm.expect(obj).to.have.any.keys('item_name','user_name');",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/data/5_auction_creator",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"5_auction_creator"
+					]
+				},
+				"description": "user story 5"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/data/6_latest_bid",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f7de9abd-c117-4c68-bf3d-5b0403bd76b7",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array')",
+							"});",
+							"pm.test(\"Response objects should all contain at least name of the auction relevant bids in publicited order\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    for(let obj of jsonData){",
+							"        pm.expect(obj).to.have.any.keys('item_name','bid_time', 'bid_id');",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/data/6_latest_bid/56",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"6_latest_bid",
+						"56"
+					]
+				},
+				"description": "user story 6"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/data/8_reserved_price_reached",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "f2df3de8-34a7-4f97-a045-ae9cfc9802b8",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array')",
+							"});",
+							"pm.test(\"Response objects should all contain at least name of the auction and wether the reserved price has been met\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    for(let obj of jsonData){",
+							"        pm.expect(obj).to.have.any.keys('item_name','reserved_price_met');",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/data/8_reserved_price_reached",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"8_reserved_price_reached"
+					]
+				},
+				"description": "user story 8"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/data/9_latest_publ_auction",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "1111ad56-d637-410b-97ff-264a22deba25",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array')",
+							"});",
+							"pm.test(\"Response objects should all contain at least name of the auction and orderered by publicited date\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    for(let obj of jsonData){",
+							"        pm.expect(obj).to.have.any.keys('item_name','auction_start');",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/data/9_latest_publ_auction",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"9_latest_publ_auction"
+					]
+				},
+				"description": "user story 9"
+			},
+			"response": []
+		},
+		{
+			"name": "http://localhost:3000/data/10_auction_ending_first",
+			"event": [
+				{
+					"listen": "test",
+					"script": {
+						"id": "96d34a53-0e0b-4368-8158-fa3130acb538",
+						"exec": [
+							"pm.test(\"Status code is 200\", function () {",
+							"    pm.response.to.have.status(200);",
+							"});",
+							"pm.test(\"Response is an array\", function () {",
+							"    var jsonData = pm.response.json();",
+							"    pm.expect(jsonData).to.be.an('array')",
+							"});",
+							"pm.test(\"Response objects should all contain at least name of the auctions ordered by expiring date\", function () {",
+							"    let jsonData = pm.response.json();",
+							"    for(let obj of jsonData){",
+							"        pm.expect(obj).to.have.any.keys('item_name','auction_end');",
+							"    }",
+							"});"
+						],
+						"type": "text/javascript"
+					}
+				}
+			],
+			"request": {
+				"method": "GET",
+				"header": [],
+				"url": {
+					"raw": "http://localhost:3000/data/10_auction_ending_first",
+					"protocol": "http",
+					"host": [
+						"localhost"
+					],
+					"port": "3000",
+					"path": [
+						"data",
+						"10_auction_ending_first"
+					]
+				},
+				"description": "user story 10"
+			},
+			"response": []
+		}
+	],
+	"protocolProfileBehavior": {}
+}
